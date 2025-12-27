@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Neighbourhood Signals, pre-read</title>
+  <meta name="description" content="A short pre-read introducing Neighbourhood Signals and how The Local Social enables the Signals, ahead of the January meeting." />
+
+  <style>
+    :root{
+      --bg: #0b1220;
+      --panel: rgba(255,255,255,0.06);
+      --panel2: rgba(255,255,255,0.09);
+      --text: rgba(255,255,255,0.92);
+      --muted: rgba(255,255,255,0.72);
+      --faint: rgba(255,255,255,0.56);
+      --line: rgba(255,255,255,0.14);
+      --max: 1040px;
+      --radius: 18px;
+    }
+
+    *{ box-sizing: border-box; }
+    html, body{ height: 100%; }
+    body{
+      margin: 0;
+      background:
+        radial-gradient(1000px 600px at 20% 10%, rgba(120,180,255,0.18), transparent 60%),
+        radial-gradient(900px 600px at 90% 30%, rgba(140,120,255,0.12), transparent 60%),
+        var(--bg);
+      color: var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      line-height: 1.55;
+      letter-spacing: 0.2px;
+    }
+
+    a{ color: var(--text); text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.28); }
+    a:hover{ border-bottom-color: rgba(255,255,255,0.6); }
+
+    .wrap{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 28px 18px 80px;
+    }
+
+    header{
+      padding: 28px 0 14px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 24px;
+    }
+
+    .toprow{
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: baseline;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+
+    .kicker{
+      color: var(--muted);
+      font-size: 14px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin: 0;
+    }
+
+    .meta{
+      color: var(--faint);
+      font-size: 13px;
+      margin: 0;
+    }
+
+    h1{
+      font-size: clamp(30px, 4vw, 46px);
+      line-height: 1.08;
+      margin: 8px 0 10px;
+      font-weight: 720;
+    }
+
+    .subhead{
+      color: var(--muted);
+      font-size: 18px;
+      margin: 0;
+      max-width: 78ch;
+    }
+
+    .grid{
+      display: grid;
+      grid-template-columns: 1.35fr 0.65fr;
+      gap: 18px;
+      margin-top: 22px;
+      align-items: start;
+    }
+
+    @media (max-width: 920px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+
+    .stack{
+      display: grid;
+      gap: 14px;
+    }
+
+    .card{
+      background: linear-gradient(180deg, var(--panel), rgba(255,255,255,0.04));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 18px;
+      backdrop-filter: blur(10px);
+    }
+
+    .card h2{
+      margin: 0 0 10px;
+      font-size: 18px;
+      letter-spacing: 0.02em;
+    }
+
+    .card h3{
+      margin: 0 0 8px;
+      font-size: 16px;
+      font-weight: 720;
+    }
+
+    .card p{
+      margin: 0 0 12px;
+      color: var(--muted);
+    }
+
+    .callout{
+      border-left: 3px solid rgba(120,180,255,0.7);
+      padding: 12px 14px;
+      background: rgba(120,180,255,0.06);
+      border-radius: 12px;
+      color: var(--text);
+      margin-top: 10px;
+    }
+
+    .callout p{ margin: 0; color: var(--text); }
+
+    .pillrow{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .pill{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .dot{
+      width: 8px;
+      height: 8px;
+      border-radius: 99px;
+      background: rgba(120,180,255,0.85);
+      box-shadow: 0 0 0 3px rgba(120,180,255,0.12);
+    }
+
+    figure{ margin: 0; }
+    .img{
+      width: 100%;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      display: block;
+      background: rgba(255,255,255,0.04);
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+    }
+
+    figcaption{
+      margin-top: 10px;
+      color: var(--faint);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .btnrow{
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .btn{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .btn:hover{
+      border-color: rgba(255,255,255,0.32);
+      background: rgba(255,255,255,0.08);
+    }
+
+    .btn.primary{
+      border-color: rgba(120,180,255,0.28);
+      background: rgba(120,180,255,0.10);
+    }
+
+    .btn.primary:hover{
+      border-color: rgba(120,180,255,0.45);
+      background: rgba(120,180,255,0.14);
+    }
+
+    section{
+      margin-top: 18px;
+      padding-top: 22px;
+      border-top: 1px solid var(--line);
+    }
+
+    section:first-of-type{
+      border-top: none;
+      padding-top: 0;
+    }
+
+    h2{
+      margin: 0 0 10px;
+      font-size: 22px;
+      font-weight: 680;
+    }
+
+    .lead{
+      color: var(--muted);
+      margin: 0 0 12px;
+      max-width: 86ch;
+      font-size: 17px;
+    }
+
+    ul{
+      margin: 10px 0 0;
+      padding-left: 18px;
+      color: var(--muted);
+    }
+    li{ margin: 8px 0; }
+
+    .pricing{
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    @media (max-width: 920px){
+      .pricing{ grid-template-columns: 1fr; }
+    }
+
+    .tier{
+      background: linear-gradient(180deg, var(--panel2), rgba(255,255,255,0.04));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px;
+    }
+
+    .tier h3{
+      margin: 0 0 8px;
+      font-size: 16px;
+      font-weight: 720;
+      letter-spacing: 0.01em;
+    }
+
+    .price{
+      font-size: 28px;
+      font-weight: 780;
+      margin: 0 0 4px;
+    }
+
+    .perhead{
+      color: var(--muted);
+      margin: 0 0 10px;
+      font-size: 14px;
+    }
+
+    .tier p{
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .note{
+      margin-top: 12px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .email{
+      display: inline-block;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.05);
+      margin-top: 10px;
+    }
+
+    footer{
+      margin-top: 26px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+      color: var(--faint);
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="toprow">
+        <p class="kicker">Pre-read for January meeting</p>
+        <p class="meta">Neighbourhood Signals, and how The Local Social enables the Signals</p>
+      </div>
+
+      <h1>Neighbourhood Signals</h1>
+      <p class="subhead">A quiet way to listen earlier, and how The Local Social makes that listening possible.</p>
+
+      <div class="grid">
+        <div class="stack">
+          <div class="card">
+            <h2>The starting point</h2>
+            <p>
+              Across Weymouth and Portland, we’re very good at responding once pressure is visible.<br />
+              But by the time pressure shows up in our usual data, something has already been happening for a while.
+            </p>
+
+            <div class="callout">
+              <p><strong>What would it look like if we could listen earlier?</strong></p>
+            </div>
+
+            <div class="pillrow" aria-label="Key principles">
+              <span class="pill"><span class="dot" aria-hidden="true"></span>Not watching individuals</span>
+              <span class="pill"><span class="dot" aria-hidden="true"></span>No extra forms</span>
+              <span class="pill"><span class="dot" aria-hidden="true"></span>Place-level listening</span>
+              <span class="pill"><span class="dot" aria-hidden="true"></span>Locally stewarded</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>The live door</h3>
+            <p>
+              The Local Social is already live, and working as a simple door into local support.
+              The physical doors point here.
+            </p>
+            <div class="btnrow">
+              <a class="btn primary" href="https://thelocalsocial.org/" target="_blank" rel="noopener noreferrer">
+                Open thelocalsocial.org
+              </a>
+              <a class="btn" href="#tls">
+                How it enables Signals
+              </a>
+            </div>
+            <p class="meta" style="margin-top:10px;">
+              Note: the meeting is about Neighbourhood Signals. The Local Social is the enabling access layer.
+            </p>
+          </div>
+        </div>
+
+        <div class="card">
+          <figure>
+            <img class="img" src="TLS.png" alt="The Local Social door on a pub toilet door, with urinals in the background" />
+            <figcaption>
+              The Local Social in the wild. A small, reusable “door” into local support, placed in everyday locations.<br />
+              It’s not a poster, it’s an access point.
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section id="what-is">
+        <h2>What is Neighbourhood Signals?</h2>
+        <p class="lead">
+          Neighbourhood Signals is a local listening layer. It helps us hear how a place is trying to navigate support,
+          before pressure hardens into crisis.
+        </p>
+        <p class="lead">
+          It listens at a place level, not a person level. It does not track individuals, create profiles,
+          or behave like a clinical system. It is not medical triage. It is neighbourhood intelligence.
+        </p>
+        <ul>
+          <li>What people are trying to find</li>
+          <li>Which doors they are trying</li>
+          <li>Where uncertainty is growing</li>
+          <li>Where shared need is beginning to form pressure</li>
+        </ul>
+      </section>
+
+      <section id="why">
+        <h2>Why this matters</h2>
+        <p class="lead">
+          By the time pressure shows up in activity data, appointments, or crisis services, it has already been felt.<br />
+          People have been coping, adapting, and searching for a way through.
+        </p>
+        <p class="lead">
+          Signals gives us something rare, time. Time to notice earlier, to adapt together, and to shape responses while needs are still light and preventable.
+        </p>
+      </section>
+
+      <section id="tls">
+        <h2>The Local Social, the access layer that enables Signals</h2>
+        <p class="lead">
+          Neighbourhood Signals only works if people have somewhere simple and trusted to start. That is what The Local Social provides.
+          It’s the shared door, online and in the real world.
+        </p>
+        <ul>
+          <li>A calm, quick door into local support</li>
+          <li>A shared starting point across partners</li>
+          <li>A neighbourhood-shaped access layer, because people can move the doors to where they think they belong</li>
+        </ul>
+        <p class="lead">
+          When people use these doors, we learn something place-level and practical, what the neighbourhood is trying to do.<br />
+          That shared access layer becomes the listening surface for Neighbourhood Signals.
+        </p>
+        <div class="btnrow" style="margin-top:6px;">
+          <a class="btn" href="https://thelocalsocial.org/" target="_blank" rel="noopener noreferrer">
+            Visit thelocalsocial.org
+          </a>
+        </div>
+      </section>
+
+      <section id="no-surveillance">
+        <h2>Listening without surveillance</h2>
+        <p class="lead">
+          The intent is simple. We don’t watch people. We listen to the neighbourhood.
+        </p>
+        <p class="lead">
+          Signals is about patterns and shifts, not individuals. It is designed to be trusted, and to stay ethically clean.
+        </p>
+      </section>
+
+      <section id="partners">
+        <h2>What this gives partners</h2>
+        <p class="lead">
+          Used well, Signals helps partners see emerging pressure before it tips, understand where navigation is breaking down,
+          and shape responses earlier.
+        </p>
+        <ul>
+          <li>Earlier awareness of rising need</li>
+          <li>Better shared understanding across NHS, PCN, Council, voluntary sector, and advice services</li>
+          <li>More timely demand shaping, communications, and pathway adjustments</li>
+          <li>A calmer, more preventative posture as a system</li>
+        </ul>
+      </section>
+
+      <section id="how-close">
+        <h2>How closely do we want to listen?</h2>
+        <p class="lead">
+          In Weymouth and Portland, the ethics, stewardship, and Neighbourhood Signals briefing are held through existing PCN capacity.
+        </p>
+        <p class="lead">
+          The funding ask is simply for a year of local stewardship and physical seeding of The Local Social doors.
+        </p>
+
+        <div class="pricing" role="list" aria-label="Listening tiers">
+          <div class="tier" role="listitem">
+            <h3>We’re listening</h3>
+            <p class="price">£3,000</p>
+            <p class="perhead">About <strong>4p per resident</strong>, per year</p>
+            <p>A real, town-level listening surface. Enough doors to create presence, seed drift, and start hearing what’s changing.</p>
+          </div>
+
+          <div class="tier" role="listitem">
+            <h3>We’re responding</h3>
+            <p class="price">£6,000</p>
+            <p class="perhead">About <strong>9p per resident</strong>, per year</p>
+            <p>Deeper coverage, active stewardship and refresh. Signals becomes something we can genuinely respond to, not just notice.</p>
+          </div>
+
+          <div class="tier" role="listitem">
+            <h3>We’re embedded</h3>
+            <p class="price">£12,000</p>
+            <p class="perhead">About <strong>17p per resident</strong>, per year</p>
+            <p>Continuous stewardship and deeper placement. Formal Signals briefings. A place-wide listening layer that becomes part of how we work.</p>
+          </div>
+
+          <div class="tier" role="listitem">
+            <h3>Anchor Neighbourhood</h3>
+            <p class="price">£20,000</p>
+            <p class="perhead">About <strong>29p per resident</strong>, per year</p>
+            <p>Full street-level saturation, partner co-design cycles, formal governance and ethics holding, published insights, and a reference model for other areas.</p>
+          </div>
+        </div>
+
+        <p class="note">
+          Note: these pence figures are based on a census-scale population for Weymouth and Portland.
+        </p>
+      </section>
+
+      <section id="questions">
+        <h2>Questions ahead of the meeting</h2>
+        <p class="lead">
+          If there are questions you’d like answered on the day, or if you want to sanity-check your understanding before we meet,
+          please email them over. It helps if you can send them in advance so we can shape the session around what matters most.
+        </p>
+        <div class="email">
+          <a href="mailto:mark.winterburn@dorsetgp.nhs.uk">mark.winterburn@dorsetgp.nhs.uk</a>
+        </div>
+      </section>
+
+      <section id="january">
+        <h2>The questions for January</h2>
+        <p class="lead">What would it look like if we could listen earlier, as a system?</p>
+        <p class="lead">What would we do differently if we could see pressure building before it tips?</p>
+        <p class="lead">How do we keep this trusted, ethical, and useful across partners?</p>
+        <p class="lead">How closely do we want to listen, together?</p>
+      </section>
+    </main>
+
+    <footer>
+      <div>Weymouth and Portland, Neighbourhood Signals pre-read.</div>
+      <div>Prepared for NHS, PCN, Council, Citizens Advice, and partners.</div>
+    </footer>
+  </div>
+</body>
+</html>
